@@ -15,10 +15,10 @@ void ATankPlayerController::BeginPlay()
 	ATank* ControlledTank = GetControlledTank();
 	if (!ControlledTank)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Failed to get controlled tank!!"))
+		UE_LOG(LogTemp, Error, TEXT("TankPlayerController failed to possess tank!!"))
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("TankPlayerController::BeginPlay() @ (%s)"), *GetControlledTank()->GetActorLocation().ToString());
+		UE_LOG(LogTemp, Warning, TEXT("TankPlayerController possessing [%s] @ (%s)"), *ControlledTank->GetName(), *ControlledTank->GetActorLocation().ToString());
 	}
 }
