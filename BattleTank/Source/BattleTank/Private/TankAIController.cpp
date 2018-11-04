@@ -42,5 +42,3 @@ void ATankAIController::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("TankAIController found [%s] @ (%s)"), *PlayerTank->GetName(), *PlayerTank->GetActorLocation().ToString());
 	}
 }
-
-
