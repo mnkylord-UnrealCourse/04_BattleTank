@@ -34,10 +34,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 	if (!GetControlledTank()) { return; }
 
 	FVector HitLocation; // out parameter
-	if(GetSightRayHitLocation(HitLocation))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController aiming @ (%s)"), *HitLocation.ToString());
-	}
+	GetSightRayHitLocation(HitLocation);
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation)
@@ -45,5 +42,34 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation)
 	int32 ViewportSizeX, ViewportSizeY;
 	GetViewportSize(ViewportSizeX, ViewportSizeY);
 	FVector2D ScreenLocation = FVector2D(CrossHairXLocation * ViewportSizeX, CrossHairYLocation * ViewportSizeY);
+
+	FVector CamLocation, AimDirection;
+	bool DeprojectReturn = DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, CamLocation, AimDirection);
+	if (DeprojectReturn)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("Cam (%s) aiming @ (%s)"), *CamLocation.ToCompactString(), *AimDirection.ToCompactString());
+		FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetPawn());
+		FVector End = PlayerCameraManager->GetCameraLocation() + AimDirection * RayTraceRange;
+		FHitResult Hit;
+		bool bRayHit = GetWorld()->LineTraceSingleByChannel(
+			Hit,
+			PlayerCameraManager->GetCameraLocation(),
+			End,
+			ECollisionChannel::ECC_Visibility
+		);
+
+		if (bRayHit)
+		{
+			HitLocation = Hit.Location;
+			UE_LOG(LogTemp, Warning, TEXT("CrossHair hit @ (%s)"), *HitLocation.ToString());
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	return false;
 }
+

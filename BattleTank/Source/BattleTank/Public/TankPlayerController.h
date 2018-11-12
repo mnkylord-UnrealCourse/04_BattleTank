@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "Tank.h"
+#include "Engine/World.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "TankPlayerController.generated.h"
 
 /**
@@ -19,9 +21,11 @@ private:
 	ATank* GetControlledTank() const;
 
 	UPROPERTY(EditAnywhere)
-	float CrossHairXLocation = 0.5;
+	float CrossHairXLocation = 0.5f;
 	UPROPERTY(EditAnywhere)
 	float CrossHairYLocation = 1.0f / 3.0f;
+	UPROPERTY(EditAnywhere)
+	float RayTraceRange = 1000000.0f;
 	
 	virtual void BeginPlay() override;
 	virtual void Tick(float) override;
