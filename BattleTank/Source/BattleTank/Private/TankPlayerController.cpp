@@ -34,7 +34,10 @@ void ATankPlayerController::AimTowardsCrosshair()
 	if (!GetControlledTank()) { return; }
 
 	FVector HitLocation; // out parameter
-	GetSightRayHitLocation(HitLocation);
+	if (GetSightRayHitLocation(HitLocation))
+	{
+		GetControlledTank()->AimAt(HitLocation);
+	}
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation)
@@ -61,11 +64,11 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation)
 		if (bRayHit)
 		{
 			HitLocation = Hit.Location;
-			UE_LOG(LogTemp, Warning, TEXT("CrossHair hit @ (%s)"), *HitLocation.ToString());
 			return true;
 		}
 		else
 		{
+			HitLocation = FVector(0);
 			return false;
 		}
 	}
