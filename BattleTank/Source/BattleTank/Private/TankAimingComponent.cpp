@@ -28,12 +28,20 @@ void UTankAimingComponent::BeginPlay()
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming @ (%s)"), *(GetOwner()->GetName()), *HitLocation.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("%s.%s (%s) aiming @ (%s)"),
+		   *GetOwner()->GetName(),
+		   *Barrel->GetName(),
+		   *Barrel->GetComponentLocation().ToString(),
+		   *HitLocation.ToString()
+	);
+}
+
+void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+{
+	Barrel = BarrelToSet;
 }
 

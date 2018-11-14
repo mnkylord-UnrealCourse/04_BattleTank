@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+
 #include "TankAimingComponent.generated.h"
 
 
@@ -25,5 +26,8 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	void AimAt(FVector);
-	
+	void SetBarrelReference(UStaticMeshComponent*);
+
+private:
+	UStaticMeshComponent* Barrel = nullptr;
 };
