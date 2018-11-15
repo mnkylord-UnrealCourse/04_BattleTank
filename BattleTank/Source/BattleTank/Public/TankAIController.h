@@ -10,6 +10,7 @@
 
 class ATank;
 
+// TODO class info
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
 {
