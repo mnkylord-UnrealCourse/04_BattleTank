@@ -41,10 +41,12 @@ void ATankPlayerController::AimTowardsCrosshair()
 	if (!GetControlledTank()) { return; }
 
 	FVector HitLocation; // out parameter
-	if (GetSightRayHitLocation(HitLocation))
+	/*if (GetSightRayHitLocation(HitLocation))
 	{
 		GetControlledTank()->AimAt(HitLocation);
-	}
+	}*/
+	GetSightRayHitLocation(HitLocation);
+	GetControlledTank()->AimAt(HitLocation);
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation)
@@ -57,7 +59,6 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation)
 	bool DeprojectReturn = DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, CamLocation, AimDirection);
 	if (DeprojectReturn)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Cam (%s) aiming @ (%s)"), *CamLocation.ToCompactString(), *AimDirection.ToCompactString());
 		FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetPawn());
 		FVector End = PlayerCameraManager->GetCameraLocation() + AimDirection * RayTraceRange;
 		FHitResult Hit;

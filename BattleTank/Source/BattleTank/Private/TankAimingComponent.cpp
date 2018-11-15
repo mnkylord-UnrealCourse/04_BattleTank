@@ -23,10 +23,7 @@ UTankAimingComponent::UTankAimingComponent()
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float FiringSpeed)
 {
-	if (!Barrel) {
-		//UE_LOG(LogTemp, Error, TEXT("%s has no barrel!!"), *GetOwner()->GetName())
-		return;
-	}
+	if (!Barrel) { return; }
 
 	FVector OutFiringVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -46,7 +43,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float FiringSpeed)
 	{
 		FVector AimDirection = OutFiringVelocity.GetSafeNormal();
 		MoveBarrelToward(AimDirection);
-		//UE_LOG(LogTemp, Warning, TEXT("%s aiming toward (%s) at %f cm/s"), *GetOwner()->GetName(), *AimDirection.ToString(), FiringSpeed);
+		UE_LOG(LogTemp, Warning, TEXT("%s aiming toward (%s) at %f cm/s"), *GetOwner()->GetName(), *AimDirection.ToString(), FiringSpeed);
 	}
 	else
 	{
