@@ -1,7 +1,14 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+// CLASS HEADER ===============================================================
 #include "TankPlayerController.h"
 
+// UE4 includes ===============================================================
+#include "Engine/World.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+
+// custom includes ============================================================
+#include "Tank.h"
 
 
 ATank* ATankPlayerController::GetControlledTank() const

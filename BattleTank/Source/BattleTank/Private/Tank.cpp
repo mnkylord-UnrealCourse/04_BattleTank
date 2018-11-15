@@ -1,9 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+// class header ===============================================================
 #include "Tank.h"
 
+// custom includes ============================================================
+#include "TankAimingComponent.h"
 
-void ATank::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+
+void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
 }

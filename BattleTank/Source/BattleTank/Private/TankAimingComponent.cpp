@@ -1,6 +1,14 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+// class header
 #include "TankAimingComponent.h"
+
+// UE4 includes ===============================================================
+#include "Kismet/GameplayStatics.h"
+
+// custom includes ============================================================
+#include "TankBarrel.h"
+
 
 
 // Sets default values for this component's properties
@@ -15,7 +23,10 @@ UTankAimingComponent::UTankAimingComponent()
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float FiringSpeed)
 {
-	if (!Barrel) { return;  }
+	if (!Barrel) {
+		//UE_LOG(LogTemp, Error, TEXT("%s has no barrel!!"), *GetOwner()->GetName())
+		return;
+	}
 
 	FVector OutFiringVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -25,6 +36,9 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float FiringSpeed)
 		StartLocation,
 		HitLocation,
 		FiringSpeed,
+		false,
+		0.0f,
+		0.0f,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	);
 
@@ -34,6 +48,10 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float FiringSpeed)
 		MoveBarrelToward(AimDirection);
 		//UE_LOG(LogTemp, Warning, TEXT("%s aiming toward (%s) at %f cm/s"), *GetOwner()->GetName(), *AimDirection.ToString(), FiringSpeed);
 	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("%s aim failed!!"), *GetOwner()->GetName());
+	}
 }
 
 void UTankAimingComponent::MoveBarrelToward(FVector AimDirection)
@@ -41,10 +59,11 @@ void UTankAimingComponent::MoveBarrelToward(FVector AimDirection)
 	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
 	FRotator AimRotator = AimDirection.Rotation();
 	FRotator DeltaRotator = AimRotator - BarrelRotator;
-	UE_LOG(LogTemp, Warning, TEXT("%s rotate barrel (%s)"), *GetOwner()->GetName(), *DeltaRotator.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("%s rotate barrel (%s)"), *GetOwner()->GetName(), *DeltaRotator.ToString());
+	Barrel->Elevate(5);
 }
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }

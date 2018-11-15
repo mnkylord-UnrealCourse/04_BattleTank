@@ -1,6 +1,14 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+// class header ===============================================================
 #include "TankAIController.h"
+
+// UE4 includes ===============================================================
+#include "Engine/World.h"
+
+// custom includes ============================================================
+#include "Tank.h"
+
 
 ATank* ATankAIController::GetControlledTank() const
 {
