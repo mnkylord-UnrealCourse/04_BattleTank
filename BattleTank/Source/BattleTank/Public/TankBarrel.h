@@ -7,14 +7,15 @@
 #include "TankBarrel.generated.h"
 
 
+
 // holds barrel elevation control methods
-UCLASS( meta = (BlueprintSpawnableComponent) )
+UCLASS( meta = (BlueprintSpawnableComponent), hidecategories = ("Collision"))
 class BATTLETANK_API UTankBarrel : public UStaticMeshComponent
 {
 	GENERATED_BODY()
 	
 public:
-	void Elevate(float DegreesPerSecond);
+	void Elevate(float SpeedMultiplier);
 	
 private:
 	UPROPERTY(EditAnywhere, Category = Setup)
@@ -24,5 +25,5 @@ private:
 	float MinElevation = 0;
 
 	UPROPERTY(EditAnywhere, Category = Setup)
-	float DegreesPerSecond = 20;
+	float DegreesPerSecond = 10;
 };

@@ -8,6 +8,7 @@
 
 // custom includes ============================================================
 #include "TankBarrel.h"
+#include "TankTurret.h"
 
 
 
@@ -23,7 +24,7 @@ UTankAimingComponent::UTankAimingComponent()
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float FiringSpeed)
 {
-	if (!Barrel) { return; }
+	if (!Barrel || !Turret) { return; }
 
 	FVector OutFiringVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -43,11 +44,11 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float FiringSpeed)
 	{
 		FVector AimDirection = OutFiringVelocity.GetSafeNormal();
 		MoveBarrelToward(AimDirection);
-		UE_LOG(LogTemp, Warning, TEXT("%s aiming toward (%s) at %f cm/s"), *GetOwner()->GetName(), *AimDirection.ToString(), FiringSpeed);
+		//UE_LOG(LogTemp, Warning, TEXT("%s aiming toward (%s) at %f cm/s"), *GetOwner()->GetName(), *AimDirection.ToString(), FiringSpeed);
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("%s aim failed!!"), *GetOwner()->GetName());
+		//UE_LOG(LogTemp, Error, TEXT("%s aim failed!!"), *GetOwner()->GetName());
 	}
 }
 
@@ -56,12 +57,22 @@ void UTankAimingComponent::MoveBarrelToward(FVector AimDirection)
 	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
 	FRotator AimRotator = AimDirection.Rotation();
 	FRotator DeltaRotator = AimRotator - BarrelRotator;
-	//UE_LOG(LogTemp, Warning, TEXT("%s rotate barrel (%s)"), *GetOwner()->GetName(), *DeltaRotator.ToString());
-	Barrel->Elevate(5);
+	Barrel->Elevate(DeltaRotator.Pitch);
+
+	FRotator TurretRotator = Turret->GetForwardVector().Rotation();
+	DeltaRotator = AimRotator - TurretRotator;
+	//UE_LOG(LogTemp, Warning, TEXT("%s Yaw = %f"), *GetOwner()->GetName(), DeltaRotator.Yaw);
+	Turret->Turn(DeltaRotator.Yaw);
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
+	if (!BarrelToSet) { return; }
 	Barrel = BarrelToSet;
 }
 
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
+{
+	if (!TurretToSet) { return; }
+	Turret = TurretToSet;
+}
