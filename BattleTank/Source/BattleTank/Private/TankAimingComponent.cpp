@@ -11,7 +11,6 @@
 #include "TankTurret.h"
 
 
-
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
 {
@@ -62,7 +61,7 @@ void UTankAimingComponent::MoveBarrelToward(FVector AimDirection)
 	FRotator TurretRotator = Turret->GetForwardVector().Rotation();
 	DeltaRotator = AimRotator - TurretRotator;
 	//UE_LOG(LogTemp, Warning, TEXT("%s Yaw = %f"), *GetOwner()->GetName(), DeltaRotator.Yaw);
-	Turret->Turn(DeltaRotator.Yaw);
+	Turret->Rotate(DeltaRotator.Yaw);
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)

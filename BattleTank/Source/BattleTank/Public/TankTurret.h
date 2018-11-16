@@ -15,11 +15,11 @@ class BATTLETANK_API UTankTurret : public UStaticMeshComponent
 	GENERATED_BODY()
 	
 public:
-	void Turn(float SpeedMultiplier);
+	void Rotate(float SpeedMultiplier);
 
 private:
 	UPROPERTY(EditAnywhere, Category = Setup)
-	float DegreesPerSecond = 10;
+	float DegreesPerSecond = 30;
 	
 	
 };

@@ -6,10 +6,11 @@
 // UE4 includes ===============================================================
 #include "Engine/World.h"
 
-void UTankTurret::Turn(float SpeedMultiplier)
+void UTankTurret::Rotate(float SpeedMultiplier)
 {
 	SpeedMultiplier = FMath::Clamp<float>(SpeedMultiplier, -1.0f, 1.0f);
 	float DeltaYaw = DegreesPerSecond * SpeedMultiplier * GetWorld()->DeltaTimeSeconds;
-	UE_LOG(LogTemp, Warning, TEXT("%f + %f = %f"), RelativeRotation.Yaw, DeltaYaw, RelativeRotation.Yaw + DeltaYaw);
-	SetRelativeRotation(FRotator(0, 0, RelativeRotation.Yaw + DeltaYaw));
+	float Yaw = RelativeRotation.Yaw + DeltaYaw;
+	//UE_LOG(LogTemp, Warning, TEXT("%f + %f = %f"), RelativeRotation.Yaw, DeltaYaw, Yaw);
+	SetRelativeRotation(FRotator(0, Yaw, 0));
 }
