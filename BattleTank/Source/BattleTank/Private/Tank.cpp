@@ -3,13 +3,19 @@
 // class header ===============================================================
 #include "Tank.h"
 
+// UE4 includes ===============================================================
+#include "Engine/World.h"
+
 // custom includes ============================================================
 #include "TankAimingComponent.h"
+#include "Projectile.h"
+#include "TankBarrel.h"
 
 
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
+	Barrel = BarrelToSet;
 }
 
 void ATank::SetTurretReference(UTankTurret * TurretToSet)
@@ -19,7 +25,13 @@ void ATank::SetTurretReference(UTankTurret * TurretToSet)
 
 void ATank::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s just fired!!"), *GetName());
+	if (!Barrel) { return; }
+	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(
+		Projectile_BP,
+		Barrel->GetSocketLocation(FName("Projectile")),
+		Barrel->GetSocketRotation(FName("Projectile"))
+	);
+	Projectile->Launch(FiringSpeed);
 }
 
 // Sets default values
