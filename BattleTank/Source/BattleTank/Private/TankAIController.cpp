@@ -24,6 +24,6 @@ void ATankAIController::Tick(float DeltaTime)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("%s aim at (%s)"), *Me->GetName(), *Player->GetActorLocation().ToString());
 		Me->AimAt(Player->GetActorLocation());
-		Me->Fire();
+		//Me->Fire();
 	}
 }
