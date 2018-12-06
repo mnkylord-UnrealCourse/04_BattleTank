@@ -8,6 +8,7 @@
 
 // custom includes ============================================================
 #include "TankAimingComponent.h"
+#include "TankMovementComponent.h"
 #include "Projectile.h"
 #include "TankBarrel.h"
 
@@ -32,6 +33,7 @@ void ATank::Fire()
 		Barrel->GetSocketLocation(FName("Projectile")),
 		Barrel->GetSocketRotation(FName("Projectile"))
 	);
+	if (!Projectile) { UE_LOG(LogTemp, Warning, TEXT("No Projectile")); return; }
 	Projectile->Launch(FiringSpeed);
 }
 
@@ -42,6 +44,7 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+	//TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 }
 
 void ATank::AimAt(FVector HitLocation)
@@ -60,6 +63,5 @@ void ATank::BeginPlay()
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
