@@ -24,17 +24,18 @@ void ATank::SetTurretReference(UTankTurret * TurretToSet)
 	TankAimingComponent->SetTurretReference(TurretToSet);
 }
 
-void ATank::Fire()
+bool ATank::Fire()
 {
-	if (!Barrel || (FPlatformTime::Seconds() - LastFireTime) < ReloadTime) { return; }
+	if (!Barrel || (FPlatformTime::Seconds() - LastFireTime) < ReloadTime) { return false; }
 	LastFireTime = FPlatformTime::Seconds();
 	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(
 		Projectile_BP,
 		Barrel->GetSocketLocation(FName("Projectile")),
 		Barrel->GetSocketRotation(FName("Projectile"))
 	);
-	if (!Projectile) { UE_LOG(LogTemp, Warning, TEXT("No Projectile")); return; }
+	if (!Projectile) { UE_LOG(LogTemp, Warning, TEXT("No Projectile")); return false; }
 	Projectile->Launch(FiringSpeed);
+	return true;
 }
 
 // Sets default values

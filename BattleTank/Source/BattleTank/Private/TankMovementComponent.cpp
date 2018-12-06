@@ -15,13 +15,13 @@ void UTankMovementComponent::IntendTurn(float Throw)
 
 void UTankMovementComponent::Initialize(UTankTrack* LeftTrack, UTankTrack* RightTrack)
 {
-	if (!LeftTrack || !RightTrack) { return; }
 	LeftTankTrack = LeftTrack;
 	RightTankTrack = RightTrack;
 }
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
+	if (!LeftTankTrack || !RightTankTrack) { return; }
 	if (Throw != 0.0f)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("IntendMoveForward(%f)"), Throw);
