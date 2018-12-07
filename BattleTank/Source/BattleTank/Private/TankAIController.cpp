@@ -20,6 +20,7 @@ void ATankAIController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	ATank* Me = Cast<ATank>(GetPawn());
 	ATank* Player = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	MoveToActor(Player, AcceptanceRadius);
 	if (Me && Player)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("%s aim at (%s)"), *Me->GetName(), *Player->GetActorLocation().ToString());
