@@ -7,8 +7,17 @@
 #include "TankAimingComponent.generated.h"
 
 
+UENUM()
+enum class EFiringStatus : uint8
+{
+	Reloading,
+	Aiming,
+	Locked
+};
+
 class UTankBarrel;
 class UTankTurret;
+
 
 /*
 * holds barrel's properties and elevate method
@@ -25,6 +34,10 @@ public:
 	void AimAt(FVector HitLocation, float FiringSpeed);
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 	void SetTurretReference(UTankTurret* TurretToSet);
+
+protected:
+	UPROPERTY(BlueprintReadOnly, Category = Setup)
+	EFiringStatus FiringStatus = EFiringStatus::Locked;
 
 private:
 	UTankBarrel* Barrel = nullptr;
