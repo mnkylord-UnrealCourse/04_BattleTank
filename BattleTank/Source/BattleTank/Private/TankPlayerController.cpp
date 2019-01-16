@@ -9,6 +9,7 @@
 
 // custom includes ============================================================
 #include "Tank.h"
+#include "TankAimingComponent.h"
 
 
 ATank* ATankPlayerController::GetControlledTank() const
@@ -19,7 +20,21 @@ ATank* ATankPlayerController::GetControlledTank() const
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+
 	ATank* ControlledTank = GetControlledTank();
+	//UTankAimingComponent *AimingComponent = ControlledTank->GetComponentByClass<UTankAimingComponent>();
+	//UTankAimingComponent *AimingComponent = ControlledTank->GetComponentByClass(UTankAimingComponent::StaticClass());
+	UTankAimingComponent *AimingComponent = Cast<UTankAimingComponent>(ControlledTank->GetComponentByClass(UTankAimingComponent::StaticClass()));
+	if (AimingComponent)
+	{
+		FoundAimingComponent(AimingComponent);
+		UE_LOG(LogTemp, Warning, TEXT("Got AimingComponent"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No AimingComponent"));
+	}
+
 	if (!ControlledTank)
 	{
 		UE_LOG(LogTemp, Error, TEXT("TankPlayerController failed to possess tank!!"))
