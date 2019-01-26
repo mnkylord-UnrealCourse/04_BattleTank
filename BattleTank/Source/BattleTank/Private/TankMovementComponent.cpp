@@ -9,6 +9,7 @@
 
 void UTankMovementComponent::IntendTurn(float Throw)
 {
+	if (!ensure(LeftTankTrack && RightTankTrack)) { return; }
 	if (Throw) { LeftTankTrack->SetThrottle(Throw); }
 	else if (Throw < 0.0f) { RightTankTrack->SetThrottle(Throw); }
 }
@@ -33,7 +34,7 @@ void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, boo
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
-	if (!LeftTankTrack || !RightTankTrack) { return; }
+	if (!ensure(LeftTankTrack && RightTankTrack)) { return; }
 	if (Throw != 0.0f)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("IntendMoveForward(%f)"), Throw);

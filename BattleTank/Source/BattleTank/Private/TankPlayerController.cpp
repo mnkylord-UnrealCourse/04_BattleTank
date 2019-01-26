@@ -25,7 +25,7 @@ void ATankPlayerController::BeginPlay()
 	//UTankAimingComponent *AimingComponent = ControlledTank->GetComponentByClass<UTankAimingComponent>();
 	//UTankAimingComponent *AimingComponent = ControlledTank->GetComponentByClass(UTankAimingComponent::StaticClass());
 	UTankAimingComponent *AimingComponent = Cast<UTankAimingComponent>(ControlledTank->GetComponentByClass(UTankAimingComponent::StaticClass()));
-	if (AimingComponent)
+	if (ensure(AimingComponent))
 	{
 		FoundAimingComponent(AimingComponent);
 		UE_LOG(LogTemp, Warning, TEXT("Got AimingComponent"));
@@ -35,7 +35,7 @@ void ATankPlayerController::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("No AimingComponent"));
 	}
 
-	if (!ControlledTank)
+	if (!ensure(ControlledTank))
 	{
 		UE_LOG(LogTemp, Error, TEXT("TankPlayerController failed to possess tank!!"))
 	}
@@ -53,7 +53,7 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank()) { return; }
+	if (!ensure(GetControlledTank())) { return; }
 
 	FVector HitLocation; // out parameter
 	/*if (GetSightRayHitLocation(HitLocation))

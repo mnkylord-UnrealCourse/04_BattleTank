@@ -15,14 +15,15 @@
 
 bool ATank::Fire()
 {
-	if (!Barrel || (FPlatformTime::Seconds() - LastFireTime) < ReloadTime) { return false; }
+	if (!ensure(Barrel)) { return false; }
+	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTime) { return false; }
 	LastFireTime = FPlatformTime::Seconds();
 	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(
 		Projectile_BP,
 		Barrel->GetSocketLocation(FName("Projectile")),
 		Barrel->GetSocketRotation(FName("Projectile"))
 	);
-	if (!Projectile) { UE_LOG(LogTemp, Warning, TEXT("No Projectile")); return false; }
+	if (!ensure(Projectile)) { UE_LOG(LogTemp, Warning, TEXT("No Projectile")); return false; }
 	Projectile->Launch(FiringSpeed);
 	return true;
 }
@@ -41,7 +42,7 @@ ATank::ATank()
 
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAimingComponent)
+	if (!ensure(TankAimingComponent))
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("No TankAimingComponent!!"));
 		return;
